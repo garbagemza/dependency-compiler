@@ -101,19 +101,3 @@ func buildDependency(dependency Dependency, sourceDir string, destinationDir str
   }
 }
 
-func Filter[T any](ss []T, test func(T) bool) (ret []T) {
-    for _, s := range ss {
-        if test(s) {
-            ret = append(ret, s)
-        }
-    }
-    return
-}
-
-func Map[T any, U any](arr []T, test func(T) U) (ret []U)  {
-  for _, a := range arr {
-    ret = append(ret, test(a))
-  }
-  return
-}
-
