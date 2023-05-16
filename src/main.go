@@ -33,8 +33,9 @@ import (
   "log"
   "os"
   "io/ioutil"
-  //  "os/exec"
+  "os/exec"
   "strings"
+  "path/filepath"
   "gopkg.in/yaml.v3"
 )
 
@@ -79,6 +80,7 @@ func buildDependencies(dependencies []Dependency, sourceDir string, destinationD
   for _, d := range dependencies {
     var sourcePath      string = sourceDir + "/" + d.Name + "/src/"
     var destinationPath string = destinationDir + "/" + d.Name + "/intermediates/"
+    createDirectory(destinationPath)
     buildDependency(d, sourcePath, destinationPath)
   }
 }
@@ -97,7 +99,30 @@ func buildDependency(dependency Dependency, sourceDir string, destinationDir str
   filtered := Filter(fileNames, sourceFilesFn)
 
   for _, f := range filtered {
-    fmt.Println(f)
+    outputFile := destinationDir + fileNameWithoutExtSliceNotation(f) + ".o"
+    inputFile := sourceDir + f
+    buildIntermediate(inputFile, outputFile)
+  }
+}
+
+func fileNameWithoutExtSliceNotation(fileName string) string {
+	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
+}
+
+// gcc -c ./build/dependencies/rnd/src/xoshiro256ss.c -o ./build/intermediates/rnd/intermediates/xoshiro256ss.o
+
+func buildIntermediate(sourceFile string, outputFile string)  {
+  cmd := exec.Command(
+    "gcc",
+    "-c",
+    sourceFile,
+    "-o",
+    outputFile)
+
+  out, err := cmd.CombinedOutput()
+  if err != nil {
+    fmt.Printf("%+v\n", string(out))
+    log.Fatal(err)
   }
 }
 
