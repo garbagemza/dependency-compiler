@@ -51,7 +51,6 @@ type Dependencies struct {
 }
 
 func main() {
-	// Load the file; returns []byte
 	f, err := os.ReadFile("build.yaml")
 	if err != nil {
 		log.Fatal(err)
@@ -108,8 +107,6 @@ func buildDependency(dependency Dependency, sourceDir string, destinationDir str
 func fileNameWithoutExtSliceNotation(fileName string) string {
 	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
 }
-
-// gcc -c ./build/dependencies/rnd/src/xoshiro256ss.c -o ./build/intermediates/rnd/intermediates/xoshiro256ss.o
 
 func buildIntermediate(sourceFile string, outputFile string)  {
   cmd := exec.Command(
