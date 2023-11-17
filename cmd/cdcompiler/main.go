@@ -87,7 +87,7 @@ func buildDependencies(dependencies []Dependency, sourceDir string, destinationD
 func buildDependency(dependency Dependency, sourceDir string, destinationDir string)  {
   files, err := ioutil.ReadDir(sourceDir)
   if err != nil {
-    fmt.Println("Attempting to read directory: %v\n", sourceDir)
+    fmt.Printf("Attempting to read directory: %v\n", sourceDir)
     log.Fatal(err)
   }
 
