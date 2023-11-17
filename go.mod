@@ -1,4 +1,4 @@
-module garbagemza/depcheck
+module garbagemza/cdcompiler
 
 go 1.20
 
